@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvm_basics.R
 import com.example.mvvm_basics.data.Quote
 import com.example.mvvm_basics.utilities.InjectorUtils
@@ -35,12 +37,16 @@ class QuotesActivity : AppCompatActivity() {
         val viewModel = ViewModelProviders.of(this, factory)
             .get(QuotesViewModel::class.java)
 
+        // Plug in the linear layout manager:
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        // Plug in my adapter:
+        val adapter = QuoteListAdapter(this)
+        recyclerView.adapter = adapter
+
         viewModel.getQuotes().observe(this, Observer { quotes ->
-            val stringBuilder = StringBuilder()
-            quotes.forEach { quote ->
-                stringBuilder.append("$quote\n\n")
-            }
-            textView_quotes.text = stringBuilder.toString()
+            // Update the cached copy of the words in the adapter.
+            quotes?.let { adapter.setWords(it) }
         })
 
         // When button is clicked, instantiate a Quote and add it to DB through the ViewModel
