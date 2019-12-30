@@ -1,5 +1,6 @@
 package com.example.mvvm_basics.ui.quotes
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -11,11 +12,19 @@ import kotlinx.android.synthetic.main.activity_quotes.*
 
 class QuotesActivity : AppCompatActivity() {
 
+    companion object AppContext {
+        lateinit var ApplicationContext: Context
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quotes)
+        SetApplicationContext()
         initializeUI()
+    }
 
+    private fun SetApplicationContext() {
+        ApplicationContext = this.applicationContext
     }
 
     private fun initializeUI() {
@@ -36,10 +45,13 @@ class QuotesActivity : AppCompatActivity() {
 
         // When button is clicked, instantiate a Quote and add it to DB through the ViewModel
         button_add_quote.setOnClickListener {
-            val quote = Quote(editText_quote.text.toString(), editText_author.text.toString())
-            viewModel.addQuotes(quote)
+//            val quote = Quote(editText_quote.text.toString(), editText_author.text.toString())
+            val quote = Quote(0, editText_quote.text.toString(), editText_author.text.toString())
+            viewModel.addQuote(quote)
             editText_quote.setText("")
             editText_author.setText("")
         }
+
+        viewModel.refreshVMData()
     }
 }

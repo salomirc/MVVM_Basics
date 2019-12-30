@@ -1,19 +1,19 @@
 package com.example.mvvm_basics.data
 
-import androidx.lifecycle.LiveData
+class QuoteRepository private constructor(private val quoteDao: QuoteDao) {
 
-class QuoteRepository private constructor(private val quoteDao: FakeQuoteDao) {
-
-    fun addQuote(quote: Quote) {
+    suspend fun addQuote(quote: Quote) {
         quoteDao.addQuote(quote)
     }
 
-    fun getQuote() = quoteDao.getQuotes()
+    suspend fun getQuotes(): List<Quote> {
+        return quoteDao.getQuotes()
+    }
 
     companion object {
         @Volatile private var instance: QuoteRepository? = null
 
-        fun getInstance(quoteDao: FakeQuoteDao): QuoteRepository {
+        fun getInstance(quoteDao: QuoteDao): QuoteRepository {
             return instance ?: synchronized(this) {
                 instance ?: QuoteRepository(quoteDao).also { instance = it }
             }

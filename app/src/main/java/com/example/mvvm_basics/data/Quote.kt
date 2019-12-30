@@ -1,8 +1,22 @@
 package com.example.mvvm_basics.data
 
-data class Quote(val quoteText: String, val author: String) {
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "quote_table")
+data class Quote(
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Int,
+    @ColumnInfo(name = "quote_text")
+    val quoteText: String,
+    @ColumnInfo(name = "author")
+    val author: String)
+{
 
     override fun toString(): String {
-        return "$quoteText - $author"
+        return "$id - $quoteText - $author"
     }
 }
