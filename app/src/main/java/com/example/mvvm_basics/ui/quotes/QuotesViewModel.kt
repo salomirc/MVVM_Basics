@@ -6,9 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mvvm_basics.data.Quote
 import com.example.mvvm_basics.data.QuoteRepository
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel() {
 
@@ -25,21 +26,21 @@ class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel(
 
     fun refreshVMData(){
          viewModelScope.launch {
-            quoteList = quoteRepository.getQuotes() as MutableList<Quote>
+             refreshDataSuspend()
+         }
+    }
+
+    private suspend fun refreshDataSuspend() {
+        quoteList = quoteRepository.getQuotes() as MutableList<Quote>
+        withContext(Dispatchers.Main){
             quotes.value = quoteList
         }
     }
 
     fun getQuotes() = quotes as LiveData<List<Quote>>
 
-    fun addQuote(quote: Quote) {
-        viewModelScope.launch {
-            quoteRepository.addQuote(quote)
-            // After adding a quote to the "database",
-            // update the value of MutableLiveData
-            // which will notify its active observers
-            quoteList.add(quote)
-            quotes.value = quoteList
-        }
+    suspend fun addQuoteSuspend(quote: Quote) {
+        quoteRepository.addQuote(quote)
+        refreshDataSuspend()
     }
 }

@@ -6,39 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.quotes.QuotesActivity">
 
-    <EditText
-        android:id="@+id/editText_quote"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="#8BC34A"
-        android:hint="Quote"
-        android:padding="5dp"
-        android:textColor="@android:color/background_light"
-        android:textColorHint="@android:color/background_light"
-        app:layout_constraintBottom_toTopOf="@+id/editText_author"
-        app:layout_constraintEnd_toEndOf="@+id/editText_author"
-        app:layout_constraintStart_toStartOf="@+id/editText_author"
-        app:layout_constraintWidth_percent="0.7" />
-
-    <EditText
-        android:id="@+id/editText_author"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="32dp"
-        android:background="#8BC34A"
-        android:hint="Author"
-        android:padding="5dp"
-        android:textColorHint="@android:color/background_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_add_quote"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.7" />
-
     <Button
         android:id="@+id/button_add_quote"
         android:layout_width="wrap_content"
@@ -46,11 +13,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:background="#E91E63"
-        android:text="Add Quote"
+        android:text="@string/add_quote"
         android:textColor="@android:color/background_light"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_author"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText_quote" />
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -61,10 +28,55 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/editText_quote"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_add_quote"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/editText_quote"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="16dp"
+            android:background="#8BC34A"
+            android:hint="@string/quote"
+            android:inputType="text"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textColor="@android:color/background_light"
+            android:textColorHint="@android:color/background_light"
+            app:layout_constraintWidth_percent="0.7"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/editText_author"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="#8BC34A"
+            android:hint="@string/author"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textColor="@android:color/background_light"
+            android:textColorHint="@android:color/background_light"
+            app:layout_constraintWidth_percent="0.7"
+            android:inputType="text"
+            android:importantForAutofill="no" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

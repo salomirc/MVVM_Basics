@@ -1,18 +1,26 @@
 package com.example.mvvm_basics.ui.quotes
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvm_basics.R
 import com.example.mvvm_basics.data.Quote
 import com.example.mvvm_basics.utilities.InjectorUtils
 import kotlinx.android.synthetic.main.activity_quotes.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class QuotesActivity : AppCompatActivity() {
+
+    private var scrollToLastItemRecyclerView: (() -> Unit)? = null
 
     companion object AppContext {
         lateinit var ApplicationContext: Context
@@ -29,6 +37,14 @@ class QuotesActivity : AppCompatActivity() {
         ApplicationContext = this.applicationContext
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            scrollToLastItemRecyclerView?.invoke()
+        }
+    }
+
     private fun initializeUI() {
         // Get the QuotesViewModelFactory with all of it's dependencies constructed
         val factory = InjectorUtils.provideQuotesViewModelFactory()
@@ -38,7 +54,8 @@ class QuotesActivity : AppCompatActivity() {
             .get(QuotesViewModel::class.java)
 
         // Plug in the linear layout manager:
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = layoutManager
 
         // Plug in my adapter:
         val adapter = QuoteListAdapter(this)
@@ -51,13 +68,33 @@ class QuotesActivity : AppCompatActivity() {
 
         // When button is clicked, instantiate a Quote and add it to DB through the ViewModel
         button_add_quote.setOnClickListener {
-//            val quote = Quote(editText_quote.text.toString(), editText_author.text.toString())
-            val quote = Quote(0, editText_quote.text.toString(), editText_author.text.toString())
-            viewModel.addQuote(quote)
-            editText_quote.setText("")
-            editText_author.setText("")
+            viewModel.viewModelScope.launch {
+                var quoteTxt = ""
+                var authorTxt = ""
+
+                withContext(Dispatchers.Main)
+                {
+                     quoteTxt = editText_quote.text.toString()
+                     authorTxt = editText_author.text.toString()
+                }
+
+                val quote = Quote(quoteTxt, authorTxt)
+                viewModel.addQuoteSuspend(quote)
+
+                withContext(Dispatchers.Main){
+                    scrollToLastItem(viewModel)
+                    editText_quote.setText("")
+                    editText_author.setText("")
+                }
+            }
         }
 
         viewModel.refreshVMData()
+
+        scrollToLastItemRecyclerView = { scrollToLastItem(viewModel) }
+    }
+
+    private fun scrollToLastItem(viewModel: QuotesViewModel) {
+        recyclerView.scrollToPosition(viewModel.quotes.value!!.size - 1)
     }
 }
