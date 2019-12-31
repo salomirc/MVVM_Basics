@@ -10,7 +10,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvm_basics.R
+import com.example.mvvm_basics.data.Hobby
 import com.example.mvvm_basics.data.Quote
+import com.example.mvvm_basics.data.Student
 import com.example.mvvm_basics.utilities.InjectorUtils
 import kotlinx.android.synthetic.main.activity_quotes.*
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +42,8 @@ class QuotesActivity : AppCompatActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ||
+            newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             scrollToLastItemRecyclerView?.invoke()
         }
     }
@@ -78,7 +81,10 @@ class QuotesActivity : AppCompatActivity() {
                      authorTxt = editText_author.text.toString()
                 }
 
-                val quote = Quote(quoteTxt, authorTxt)
+                if (quoteTxt.isNullOrEmpty() || authorTxt.isNullOrEmpty())
+                    return@launch
+
+                val quote = Quote(quoteTxt, Student(authorTxt, 21, Hobby("Football", "Soft")))
                 viewModel.addQuoteSuspend(quote)
 
                 withContext(Dispatchers.Main){
