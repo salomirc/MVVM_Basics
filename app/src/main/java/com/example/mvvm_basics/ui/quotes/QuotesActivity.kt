@@ -4,6 +4,11 @@ import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.viewModelScope
@@ -15,10 +20,7 @@ import com.example.mvvm_basics.data.Quote
 import com.example.mvvm_basics.data.Student
 import com.example.mvvm_basics.utilities.InjectorUtils
 import kotlinx.android.synthetic.main.activity_quotes.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class QuotesActivity : AppCompatActivity() {
 
@@ -69,6 +71,7 @@ class QuotesActivity : AppCompatActivity() {
             quotes?.let { adapter.setWords(it) }
         })
 
+
         // When button is clicked, instantiate a Quote and add it to DB through the ViewModel
         button_add_quote.setOnClickListener {
             viewModel.viewModelScope.launch {
@@ -89,8 +92,9 @@ class QuotesActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main){
                     scrollToLastItem(viewModel)
-                    editText_quote.setText("")
-                    editText_author.setText("")
+                    hideSoftKeyboard(it)
+                    resetEditText()
+                    clearFocusEditText()
                 }
             }
         }
@@ -98,6 +102,21 @@ class QuotesActivity : AppCompatActivity() {
         viewModel.refreshVMData()
 
         scrollToLastItemRecyclerView = { scrollToLastItem(viewModel) }
+    }
+
+    private fun resetEditText() {
+        editText_quote.setText("")
+        editText_author.setText("")
+    }
+
+    private fun clearFocusEditText() {
+        editText_quote.clearFocus()
+        editText_author.clearFocus()
+    }
+
+    private fun hideSoftKeyboard(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 
     private fun scrollToLastItem(viewModel: QuotesViewModel) {

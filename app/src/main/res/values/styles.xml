@@ -12,10 +12,11 @@
    The margin is a simple delimiter between the words. -->
     <style name="word_title">
         <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:background">@android:color/holo_blue_light</item>
+        <item name="android:background">@android:color/white</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
     </style>
 
+    <!--Default Custom Style for Buttons-->
     <style name="DefaultButtonStyle">
         <item name="colorButtonNormal">@android:color/holo_red_dark</item>
     </style>
