@@ -1,11 +1,14 @@
 package com.example.mvvm_basics.ui.quotes
 
+import androidx.databinding.BaseObservable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mvvm_basics.data.Hobby
 import com.example.mvvm_basics.data.Quote
 import com.example.mvvm_basics.data.QuoteRepository
+import com.example.mvvm_basics.data.Student
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -13,15 +16,20 @@ import kotlinx.coroutines.withContext
 
 class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel() {
 
-    var quoteList = mutableListOf<Quote>()
     // MutableLiveData is from the Architecture Components Library
     // LiveData can be observed for changes
-    val quotes = MutableLiveData<List<Quote>>()
+    val quotes = MutableLiveData<List<Quote>>().apply { value = mutableListOf() }
+    val authorLD = MutableLiveData<String>().apply { value = "" }
+    val quoteLD = MutableLiveData<String>().apply { value = "" }
 
-    init {
-        // Immediately connect the now empty quoteList
-        // to the MutableLiveData which can be observed
-        quotes.value = quoteList
+    fun getQuotes() = quotes as LiveData<List<Quote>>
+
+    suspend fun addQuoteSuspend() {
+        if(quoteLD.value == "" || authorLD.value == "")
+            return
+        val quote = Quote(quoteLD.value!!, Student(authorLD.value!!, 21, Hobby("Football", "Soft")))
+        quoteRepository.addQuote(quote)
+        refreshDataSuspend()
     }
 
     fun refreshVMData(){
@@ -31,16 +39,6 @@ class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel(
     }
 
     private suspend fun refreshDataSuspend() {
-        quoteList = quoteRepository.getQuotes() as MutableList<Quote>
-        withContext(Dispatchers.Main){
-            quotes.value = quoteList
-        }
-    }
-
-    fun getQuotes() = quotes as LiveData<List<Quote>>
-
-    suspend fun addQuoteSuspend(quote: Quote) {
-        quoteRepository.addQuote(quote)
-        refreshDataSuspend()
+        quotes.value = quoteRepository.getQuotes() as MutableList<Quote>
     }
 }
