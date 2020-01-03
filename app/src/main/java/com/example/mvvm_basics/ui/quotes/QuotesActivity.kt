@@ -2,10 +2,10 @@ package com.example.mvvm_basics.ui.quotes
 
 import android.content.Context
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,7 +15,10 @@ import com.example.mvvm_basics.R
 import com.example.mvvm_basics.databinding.ActivityQuotesBinding
 import com.example.mvvm_basics.utilities.InjectorUtils
 import kotlinx.android.synthetic.main.activity_quotes.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class QuotesActivity : AppCompatActivity() {
 
@@ -44,6 +47,9 @@ class QuotesActivity : AppCompatActivity() {
         // Inflate view and obtain an instance of the binding class.
         val binding: ActivityQuotesBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_quotes)
+
+        // Specify the current activity as the lifecycle owner.
+        binding.lifecycleOwner = this
 
         // Assign the component to a property in the binding class.
         binding.viewmodel = viewModel
@@ -81,10 +87,13 @@ class QuotesActivity : AppCompatActivity() {
         // When button is clicked, instantiate a Quote and add it to DB through the ViewModel
         button_add_quote.setOnClickListener {
             viewModel.viewModelScope.launch {
+                withContext(Dispatchers.Main){
+                    hideSoftKeyboard(it)
+                }
+                delay(500)
                 viewModel.addQuoteSuspend()
                 withContext(Dispatchers.Main){
                     scrollToLastItem(viewModel)
-                    hideSoftKeyboard(it)
                     clearEditText()
                 }
             }
