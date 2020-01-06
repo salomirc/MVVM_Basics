@@ -77,22 +77,6 @@
             app:layout_constraintEnd_toEndOf="@+id/editText_quote"
             app:layout_constraintStart_toStartOf="@+id/editText_quote" />
 
-        <Button
-            android:id="@+id/button_add_quote"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/add_quote"
-            android:textColor="@android:color/background_light"
-            android:theme="@style/DefaultButtonStyle"
-            android:onClick="@{() -> viewmodel.onLike(Direction.NORTH)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/logoImageView" />
-
 <!--        <Button-->
 <!--            android:id="@+id/button_add_quote"-->
 <!--            style="@style/Widget.AppCompat.Button"-->
@@ -104,9 +88,25 @@
 <!--            android:text="@string/add_quote"-->
 <!--            android:textColor="@android:color/background_light"-->
 <!--            android:theme="@style/DefaultButtonStyle"-->
+<!--            android:onClick="@{() -> viewmodel.onLike(Direction.NORTH)}"-->
 <!--            app:layout_constraintBottom_toBottomOf="parent"-->
 <!--            app:layout_constraintEnd_toEndOf="parent"-->
 <!--            app:layout_constraintTop_toTopOf="@+id/logoImageView" />-->
+
+        <Button
+            android:id="@+id/button_add_quote"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/add_quote"
+            android:textColor="@android:color/background_light"
+            android:theme="@style/DefaultButtonStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/logoImageView" />
 
 
         <!--        Solution 1 using app:imageResourceCustom attribute-->

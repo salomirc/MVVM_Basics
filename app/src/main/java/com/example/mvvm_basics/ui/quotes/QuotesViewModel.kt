@@ -29,15 +29,16 @@ class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel(
 
     fun onLike(direction: Direction){
         viewModelScope.launch {
-            quoteLD.value = direction.name.toString()
+            quoteLD.value = direction.name
             authorLD.value = quoteLD.value
             addQuoteSuspend()
         }
     }
 
-    suspend fun addQuoteSuspend() {
+    suspend fun addQuoteSuspend(): Boolean {
         if(quoteLD.value == "" || authorLD.value == "")
-            return
+            return false
+
         logoSrcCompat.value = R.drawable.ic_favorite_black_24dp
         isVisible.value = false
         val quote = Quote(quoteLD.value!!, Student(authorLD.value!!, 21, Hobby("Football", "Soft")))
@@ -46,6 +47,7 @@ class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel(
         delay(1000)
         logoSrcCompat.value = R.drawable.ic_favorite_border_black_24dp
         isVisible.value = true
+        return true
     }
 
     fun refreshVMData(){

@@ -91,7 +91,7 @@ class QuotesActivity : AppCompatActivity() {
                     hideSoftKeyboard(it)
                 }
                 delay(500)
-                viewModel.addQuoteSuspend()
+                if (viewModel.addQuoteSuspend())
                 withContext(Dispatchers.Main){
                     scrollToLastItem(viewModel)
                     clearEditText()
