@@ -57,4 +57,8 @@ class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel(
     private suspend fun refreshDataSuspend() {
         quotes.value = quoteRepository.getQuotes() as MutableList<Quote>
     }
+
+    fun Add(a: Int, b: Int): Int{
+        return a + b
+    }
 }
