@@ -41,8 +41,7 @@ class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel(
 
         logoSrcCompat.value = R.drawable.ic_favorite_black_24dp
         isVisible.value = false
-        val quote = Quote(quoteLD.value!!, Student(authorLD.value!!, 21, Hobby("Football", "Soft")))
-        quoteRepository.addQuote(quote)
+        quoteRepository.addQuote(Quote(quoteLD.value!!, Student(authorLD.value!!, 21, Hobby("Football", "Soft"))))
         refreshDataSuspend()
         delay(1000)
         logoSrcCompat.value = R.drawable.ic_favorite_border_black_24dp
@@ -50,17 +49,7 @@ class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel(
         return true
     }
 
-    fun refreshVMData(){
-         viewModelScope.launch {
-             refreshDataSuspend()
-         }
-    }
-
-    private suspend fun refreshDataSuspend() {
+    suspend fun refreshDataSuspend() {
         quotes.value = quoteRepository.getQuotes() as MutableList<Quote>
-    }
-
-    fun Add(a: Int, b: Int): Int{
-        return a + b
     }
 }

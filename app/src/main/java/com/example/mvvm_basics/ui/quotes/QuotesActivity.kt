@@ -31,12 +31,12 @@ class QuotesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        SetApplicationContext()
-        SetArchitectureComponents()
+        setApplicationContext()
+        setArchitectureComponents()
         initializeUI()
     }
 
-    private fun SetArchitectureComponents() {
+    private fun setArchitectureComponents() {
         // Get the QuotesViewModelFactory with all of it's dependencies constructed
         val factory = InjectorUtils.provideQuotesViewModelFactory()
         // Use ViewModelProviders class to create / get already created QuotesViewModel
@@ -55,7 +55,7 @@ class QuotesActivity : AppCompatActivity() {
         binding.viewmodel = viewModel
     }
 
-    private fun SetApplicationContext() {
+    private fun setApplicationContext() {
         ApplicationContext = this.applicationContext
     }
 
@@ -99,9 +99,13 @@ class QuotesActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.refreshVMData()
-
-        scrollToLastItemRecyclerView = { scrollToLastItem(viewModel) }
+        viewModel.viewModelScope.launch {
+            viewModel.refreshDataSuspend()
+            withContext(Dispatchers.Main){
+                scrollToLastItemRecyclerView = { scrollToLastItem(viewModel) }
+                scrollToLastItem(viewModel)
+            }
+        }
     }
 
     private fun clearEditText() {
