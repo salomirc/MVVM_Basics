@@ -5,7 +5,6 @@ import com.example.mvvm_basics.data.QuoteRepository
 import com.example.mvvm_basics.data.RoomDatabaseApp
 import com.example.mvvm_basics.ui.quotes.QuotesActivity
 import com.example.mvvm_basics.ui.quotes.QuotesViewModel
-import com.example.mvvm_basics.ui.quotes.QuotesViewModelFactory
 import com.example.mvvm_basics.ui.quotes.ViewModelFactory
 
 object InjectorUtils {
