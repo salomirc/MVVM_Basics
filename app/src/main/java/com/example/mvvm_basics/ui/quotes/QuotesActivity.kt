@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.concurrent.thread
 
 class QuotesActivity : AppCompatActivity() {
 
@@ -87,30 +88,25 @@ class QuotesActivity : AppCompatActivity() {
         // When button is clicked, instantiate a Quote and add it to DB through the ViewModel
         button_add_quote.setOnClickListener {
             viewModel.viewModelScope.launch {
-                withContext(Dispatchers.Main){
-                    hideSoftKeyboard(it)
-                }
+                hideSoftKeyboard(it)
+                clearFocus()
                 delay(500)
                 if (viewModel.addQuoteSuspend())
-                withContext(Dispatchers.Main){
+                {
+                    viewModel.clearEditText()
                     scrollToLastItem(viewModel)
-                    clearEditText()
                 }
             }
         }
 
         viewModel.viewModelScope.launch {
             viewModel.refreshDataSuspend()
-            withContext(Dispatchers.Main){
-                scrollToLastItemRecyclerView = { scrollToLastItem(viewModel) }
-                scrollToLastItem(viewModel)
-            }
+            scrollToLastItem(viewModel)
+            scrollToLastItemRecyclerView = { scrollToLastItem(viewModel) }
         }
     }
 
-    private fun clearEditText() {
-        editText_quote.setText("")
-        editText_author.setText("")
+    private fun clearFocus() {
         editText_quote.clearFocus()
         editText_author.clearFocus()
     }

@@ -11,8 +11,10 @@ import com.example.mvvm_basics.data.Quote
 import com.example.mvvm_basics.data.QuoteRepository
 import com.example.mvvm_basics.data.Student
 import com.example.mvvm_basics.enums.Direction
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel() {
 
@@ -41,15 +43,28 @@ class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel(
 
         logoSrcCompat.value = R.drawable.ic_favorite_black_24dp
         isVisible.value = false
-        quoteRepository.addQuote(Quote(quoteLD.value!!, Student(authorLD.value!!, 21, Hobby("Football", "Soft"))))
+
+        println("debug: one - from the thread ${Thread.currentThread().name}")
+
+        withContext(Dispatchers.IO){
+            println("debug: two - from the thread ${Thread.currentThread().name}")
+            quoteRepository.addQuote(Quote(quoteLD.value!!, Student(authorLD.value!!, 21, Hobby("Football", "Soft"))))
+            delay(1000)
+        }
         refreshDataSuspend()
-        delay(1000)
         logoSrcCompat.value = R.drawable.ic_favorite_border_black_24dp
         isVisible.value = true
         return true
     }
 
     suspend fun refreshDataSuspend() {
-        quotes.value = quoteRepository.getQuotes() as MutableList<Quote>
+        quotes.value = withContext(Dispatchers.IO){
+            quoteRepository.getQuotes() as MutableList<Quote>
+        }
+    }
+
+    fun clearEditText() {
+        quoteLD.value = ""
+        authorLD.value = ""
     }
 }
