@@ -18,6 +18,9 @@ data class Quote(
     @ColumnInfo(name = "id")
     var id: Int = 0
 
+    @ColumnInfo(name = "is_selected")
+    var isSelected: Boolean = false
+
     override fun toString(): String {
         return "$id - $quoteText - ${author.Name} - ${author.Age} - ${author.Hobby.Name} - ${author.Hobby.Type}"
     }

@@ -9,7 +9,7 @@ interface QuoteDao {
     suspend fun getQuotes(): List<Quote>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun addQuote(quote: Quote)
+    suspend fun addQuote(quote: Quote): Long
 
     @Delete
     suspend fun deleteQuote(quote: Quote)

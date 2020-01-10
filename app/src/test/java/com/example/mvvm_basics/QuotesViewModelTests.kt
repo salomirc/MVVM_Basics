@@ -8,7 +8,6 @@ import com.example.mvvm_basics.ui.quotes.QuotesViewModel
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -74,8 +73,7 @@ class QuotesViewModelTests {
         // Arrange
         viewModel.quoteLD.value = "AAA"
         viewModel.authorLD.value = "Ciprian"
-        coEvery { repo.addQuote(any()) } returns Unit
-        coEvery { repo.getQuotes() } returns sampleList
+        coEvery { repo.addQuote(any()) } returns 0
 
         // Act
         val result = runBlocking { viewModel.addQuoteSuspend() }
@@ -83,7 +81,6 @@ class QuotesViewModelTests {
         // Assert
         coVerifySequence {
             repo.addQuote(any())
-            repo.getQuotes()
         }
         assertThat(result).isEqualTo(true)
     }
@@ -95,7 +92,7 @@ class QuotesViewModelTests {
         coEvery { repo.getQuotes() } returns sampleList
 
         // Act
-        runBlocking { viewModel.refreshDataSuspend() }
+        runBlocking { viewModel.refreshAllDataSuspend() }
 
         // Assert
 //        val newSampleList = mutableListOf<Quote>().apply { addAll(sampleList); add(quote) }

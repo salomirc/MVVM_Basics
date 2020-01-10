@@ -8,27 +8,42 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvm_basics.R
 import com.example.mvvm_basics.data.Quote
+import kotlinx.android.synthetic.main.recyclerview_item.view.*
 
-class QuoteListAdapter(context: Context) : RecyclerView.Adapter<QuoteListAdapter.WordViewHolder>() {
+class QuoteListAdapter(context: Context,
+                       private var quotes : MutableList<Quote>,
+                       private val itemClick: (Quote, Int, QuoteListAdapter) -> Unit) :
+    RecyclerView.Adapter<QuoteListAdapter.QuoteListHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var quotes = emptyList<Quote>() // Cached copy of quotes
 
-    inner class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val wordItemView: TextView = itemView.findViewById(R.id.textView)
+    inner class QuoteListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val view = itemView
+        val quoteItemTextView: TextView = itemView.itemTextView
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuoteListHolder {
         val itemView = inflater.inflate(R.layout.recyclerview_item, parent, false)
-        return WordViewHolder(itemView)
+        return QuoteListHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: QuoteListHolder, position: Int) {
         val current = quotes[position]
-        holder.wordItemView.text = current.toString()
+        holder.quoteItemTextView.text = current.toString()
+        holder.quoteItemTextView.setBackgroundResource(
+            if (current.isSelected ) R.color.itemTextViewBgColorSelected else R.color.itemTextViewBgColorDefault
+        )
+        holder.view.setOnClickListener {
+            itemClick(current, position, this)
+        }
     }
 
-    internal fun setWords(quotes: List<Quote>) {
+    override fun onViewRecycled(holder: QuoteListHolder) {
+        super.onViewRecycled(holder)
+        holder.quoteItemTextView.setBackgroundResource(R.color.itemTextViewBgColorDefault)
+    }
+
+    internal fun setWords(quotes: MutableList<Quote>) {
         this.quotes = quotes
         notifyDataSetChanged()
     }

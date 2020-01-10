@@ -2,8 +2,8 @@ package com.example.mvvm_basics.data
 
 class QuoteRepository private constructor(private val quoteDao: QuoteDao) {
 
-    suspend fun addQuote(quote: Quote) {
-        quoteDao.addQuote(quote)
+    suspend fun addQuote(quote: Quote): Long {
+        return quoteDao.addQuote(quote)
     }
 
     suspend fun getQuotes(): List<Quote> {

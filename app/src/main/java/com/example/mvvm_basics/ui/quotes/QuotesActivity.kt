@@ -15,11 +15,8 @@ import com.example.mvvm_basics.R
 import com.example.mvvm_basics.databinding.ActivityQuotesBinding
 import com.example.mvvm_basics.utilities.InjectorUtils
 import kotlinx.android.synthetic.main.activity_quotes.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.concurrent.thread
 
 class QuotesActivity : AppCompatActivity() {
 
@@ -76,7 +73,11 @@ class QuotesActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
 
         // Plug in my adapter:
-        val adapter = QuoteListAdapter(this)
+        val adapter = QuoteListAdapter(this, viewModel.quotes.value!!){ quote, position, adapter ->
+            println("DebugInfo: Author : \"${quote.author.Name}\" Quote : \"${quote.quoteText}\"")
+            quote.isSelected = !quote.isSelected
+            adapter.notifyItemChanged(position)
+        }
         recyclerView.adapter = adapter
 
         //Set Observer for RecyclerView source list
@@ -100,7 +101,7 @@ class QuotesActivity : AppCompatActivity() {
         }
 
         viewModel.viewModelScope.launch {
-            viewModel.refreshDataSuspend()
+            viewModel.refreshAllDataSuspend()
             scrollToLastItem(viewModel)
             scrollToLastItemRecyclerView = { scrollToLastItem(viewModel) }
         }
