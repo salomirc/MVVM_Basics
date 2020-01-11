@@ -88,7 +88,7 @@ class QuotesViewModelTests {
     @Test
     fun refreshDataSuspend_WhenCalled_setCorrectState(){
         // Arrange
-        val quote = Quote("abc", Student("Ciprian", 21, Hobby("Footbal", "Sport")))
+//        val quote = Quote("abc", Student("Ciprian", 21, Hobby("Footbal", "Sport")))
         coEvery { repo.getQuotes() } returns sampleList
 
         // Act
