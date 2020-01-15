@@ -2,10 +2,13 @@ package com.example.mvvm_basics.ui.quotes
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,9 +25,18 @@ class QuotesActivity : AppCompatActivity() {
 
     private lateinit var viewModel: QuotesViewModel
     private var scrollToLastItemRecyclerView: (() -> Unit)? = null
+    private var isRunning: Boolean = false
 
     companion object AppContext {
         lateinit var ApplicationContext: Context
+        lateinit var rootView: ViewGroup
+
+        fun isKeyboardOnScreen(): Boolean{
+            val r = Rect()
+            rootView.getWindowVisibleDisplayFrame(r)
+            val heightDiff = rootView.rootView.height - (r.bottom - r.top)
+            return heightDiff > rootView.rootView.height / 4
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +80,8 @@ class QuotesActivity : AppCompatActivity() {
 
     private fun initializeUI() {
 
+        rootView = main_root_layout
+
         // Plug in the linear layout manager:
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -88,16 +102,23 @@ class QuotesActivity : AppCompatActivity() {
 
         // When button is clicked, instantiate a Quote and add it to DB through the ViewModel
         button_add_quote.setOnClickListener {
+            if (isRunning)
+                return@setOnClickListener
+                isRunning = true
+
+            clearFocus()
+            hideSoftKeyboard(it)
             viewModel.viewModelScope.launch {
-                hideSoftKeyboard(it)
-                clearFocus()
-                delay(500)
+                if (isKeyboardOnScreen())
+                    delay(300)
                 if (viewModel.addQuoteSuspend())
                 {
                     viewModel.clearEditText()
                     scrollToLastItem(viewModel)
                 }
             }
+
+            isRunning = false
         }
 
         viewModel.viewModelScope.launch {
