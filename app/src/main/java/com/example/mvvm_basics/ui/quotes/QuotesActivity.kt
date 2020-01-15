@@ -1,14 +1,9 @@
 package com.example.mvvm_basics.ui.quotes
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Rect
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_quotes.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class QuotesActivity : AppCompatActivity() {
+class QuotesActivity : BaseActivity() {
 
     private lateinit var viewModel: QuotesViewModel
     private var scrollToLastItemRecyclerView: (() -> Unit)? = null
@@ -29,14 +24,6 @@ class QuotesActivity : AppCompatActivity() {
 
     companion object AppContext {
         lateinit var ApplicationContext: Context
-        lateinit var rootView: ViewGroup
-
-        fun isKeyboardOnScreen(): Boolean{
-            val r = Rect()
-            rootView.getWindowVisibleDisplayFrame(r)
-            val heightDiff = rootView.rootView.height - (r.bottom - r.top)
-            return heightDiff > rootView.rootView.height / 4
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,8 +67,6 @@ class QuotesActivity : AppCompatActivity() {
 
     private fun initializeUI() {
 
-        rootView = main_root_layout
-
         // Plug in the linear layout manager:
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -91,6 +76,11 @@ class QuotesActivity : AppCompatActivity() {
             println("DebugInfo: Author : \"${quote.author.Name}\" Quote : \"${quote.quoteText}\"")
             quote.isSelected = !quote.isSelected
             adapter.notifyItemChanged(position)
+            if (quote.isSelected){
+                val intent = Intent(this, QuoteDetails::class.java)
+                intent.putExtra("quote", quote.toString())
+                startActivity(intent)
+            }
         }
         recyclerView.adapter = adapter
 
@@ -106,10 +96,10 @@ class QuotesActivity : AppCompatActivity() {
                 return@setOnClickListener
                 isRunning = true
 
-            clearFocus()
-            hideSoftKeyboard(it)
             viewModel.viewModelScope.launch {
-                if (isKeyboardOnScreen())
+                clearFocus(editText_quote, editText_author)
+                hideSoftKeyboard(it)
+                if (isKeyboardOnScreen(root_view_quotes))
                     delay(300)
                 if (viewModel.addQuoteSuspend())
                 {
@@ -126,16 +116,6 @@ class QuotesActivity : AppCompatActivity() {
             scrollToLastItem(viewModel)
             scrollToLastItemRecyclerView = { scrollToLastItem(viewModel) }
         }
-    }
-
-    private fun clearFocus() {
-        editText_quote.clearFocus()
-        editText_author.clearFocus()
-    }
-
-    private fun hideSoftKeyboard(view: View) {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 
     private fun scrollToLastItem(viewModel: QuotesViewModel) {

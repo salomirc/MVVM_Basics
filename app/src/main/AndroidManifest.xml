@@ -11,10 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.quotes.BaseActivity" />
+        <activity android:name=".ui.quotes.QuoteDetails"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ui.quotes.QuotesActivity"
-            android:configChanges="orientation"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

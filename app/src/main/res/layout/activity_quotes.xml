@@ -9,8 +9,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_root_layout"
-        android:background="@android:color/holo_green_light"
+        android:id="@+id/root_view_quotes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
@@ -56,6 +55,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/editText_author"
             app:layout_constraintEnd_toStartOf="@+id/button_add_quote"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.example.mvvm_basics.view.ClearFocusEditText
