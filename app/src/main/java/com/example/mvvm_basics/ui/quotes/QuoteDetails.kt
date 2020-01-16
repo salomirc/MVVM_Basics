@@ -19,7 +19,6 @@ class QuoteDetails : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quote_details)
-
         setArchitectureComponents()
         initializeUI()
     }
@@ -44,7 +43,10 @@ class QuoteDetails : BaseActivity() {
     }
 
     private fun initializeUI(){
-        viewModel.quoteText.value = intent.extras?.getString("quote") ?: "No quote available ..."
+        if (!viewModel.isAlreadyInitialized) {
+            viewModel.quoteText.value = intent.extras?.getString("quote") ?: "No quote available ..."
+            viewModel.isAlreadyInitialized = true
+        }
 
         addButton.setOnClickListener {
             if (isRunning)
@@ -55,7 +57,7 @@ class QuoteDetails : BaseActivity() {
                 clearFocus(addCommentsEditText)
                 hideSoftKeyboard(it)
                 if (isKeyboardOnScreen(root_view_quote_details))
-                    delay(1000)
+                    delay(300)
                 if (viewModel.addQuoteSuspend())
                 {
                     viewModel.clearEditText()

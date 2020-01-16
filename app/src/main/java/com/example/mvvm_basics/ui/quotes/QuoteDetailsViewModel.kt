@@ -11,6 +11,7 @@ class QuoteDetailsViewModel(private val quoteRepository: QuoteRepository) : View
     // LiveData can be observed for changes
     val quoteText = MutableLiveData<String>().apply { value = "" }
     val addCommentsText = MutableLiveData<String>().apply { value = "" }
+    var isAlreadyInitialized = false
 
     suspend fun addQuoteSuspend(): Boolean {
         if(addCommentsText.value == "")
