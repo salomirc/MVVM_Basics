@@ -13,7 +13,7 @@ class QuoteDetailsViewModel(private val quoteRepository: QuoteRepository) : View
     val addCommentsText = MutableLiveData<String>().apply { value = "" }
     var isAlreadyInitialized = false
 
-    suspend fun addQuoteSuspend(): Boolean {
+    suspend fun addDetailQuoteSuspend(): Boolean {
         if(addCommentsText.value == "")
             return false
 
@@ -22,7 +22,7 @@ class QuoteDetailsViewModel(private val quoteRepository: QuoteRepository) : View
         return true
     }
 
-    fun clearEditText() {
+    fun clearDetailEditText() {
         addCommentsText.value = ""
     }
 }

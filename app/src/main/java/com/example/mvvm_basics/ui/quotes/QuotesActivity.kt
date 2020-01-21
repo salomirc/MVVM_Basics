@@ -3,11 +3,14 @@ package com.example.mvvm_basics.ui.quotes
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.ViewGroup
 import com.example.mvvm_basics.R
+import com.example.mvvm_basics.interfaces.IRootView
+import kotlinx.android.synthetic.main.activity_quotes.*
 
-class QuotesActivity : BaseActivity() {
+class QuotesActivity : BaseActivity(), IRootView {
 
-//    private lateinit var viewModel: QuotesViewModel
+    override lateinit var rootView: ViewGroup
     var scrollToLastItemRecyclerView: (() -> Unit)? = null
 //    private var isRunning: Boolean = false
 
@@ -21,6 +24,7 @@ class QuotesActivity : BaseActivity() {
         setContentView(R.layout.activity_quotes)
 //        setArchitectureComponents()
 //        initializeUI()
+        rootView = root_view_quotes
     }
 
 //    private fun setArchitectureComponents() {

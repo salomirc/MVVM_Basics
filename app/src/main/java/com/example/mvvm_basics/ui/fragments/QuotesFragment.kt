@@ -2,6 +2,8 @@ package com.example.mvvm_basics.ui.fragments
 
 
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -73,9 +75,17 @@ class QuotesFragment : Fragment() {
             quote.isSelected = !quote.isSelected
             adapter.notifyItemChanged(position)
             if (quote.isSelected){
-                val intent = Intent(activity, QuoteDetailsActivity::class.java)
-                intent.putExtra("quote", quote.toString())
-                startActivity(intent)
+                if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
+                {
+                    viewModel.quoteText.value = quote.toString()
+                    val intent = Intent(activity, QuoteDetailsActivity::class.java)
+                    intent.putExtra("quote", quote.toString())
+                    startActivity(intent)
+                }
+                else if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                {
+                    viewModel.quoteText.value = quote.toString()
+                }
             }
         }
         recyclerView.adapter = adapter

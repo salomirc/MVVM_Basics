@@ -72,4 +72,22 @@ class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel(
         quoteLD.value = ""
         authorLD.value = ""
     }
+
+    //QuoteDetails Part
+    val quoteText = MutableLiveData<String>().apply { value = "" }
+    val addCommentsText = MutableLiveData<String>().apply { value = "" }
+    var isAlreadyInitialized = false
+
+    suspend fun addDetailQuoteSuspend(): Boolean {
+        if(addCommentsText.value == "")
+            return false
+
+        quoteText.value = "${quoteText.value}\n${addCommentsText.value}"
+        delay(10)
+        return true
+    }
+
+    fun clearDetailEditText() {
+        addCommentsText.value = ""
+    }
 }
