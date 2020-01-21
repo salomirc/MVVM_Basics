@@ -1,7 +1,6 @@
 package com.example.mvvm_basics.ui.fragments
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.example.mvvm_basics.databinding.FragmentQuoteDetailsBinding
 import com.example.mvvm_basics.interfaces.IRootView
 import com.example.mvvm_basics.ui.quotes.BaseActivity
 import com.example.mvvm_basics.ui.quotes.QuoteDetailsActivity
-import com.example.mvvm_basics.ui.quotes.QuotesActivity
 import com.example.mvvm_basics.ui.quotes.QuotesViewModel
 import com.example.mvvm_basics.utilities.InjectorUtils
 import kotlinx.android.synthetic.main.fragment_quote_details.*

@@ -16,8 +16,7 @@
             android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ui.quotes.QuotesActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:configChanges="orientation">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

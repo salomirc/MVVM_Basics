@@ -3,7 +3,6 @@ package com.example.mvvm_basics.ui.fragments
 
 import android.content.Intent
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -121,7 +120,6 @@ class QuotesFragment : Fragment() {
         viewModel.viewModelScope.launch {
             viewModel.refreshAllDataSuspend()
             scrollToLastItem(viewModel)
-            (activity as QuotesActivity).scrollToLastItemRecyclerView = { scrollToLastItem(viewModel) }
         }
     }
 
