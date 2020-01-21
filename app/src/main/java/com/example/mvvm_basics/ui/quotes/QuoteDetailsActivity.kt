@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_quote_details.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class QuoteDetails : BaseActivity() {
+class QuoteDetailsActivity : BaseActivity() {
 
     private lateinit var viewModel: QuoteDetailsViewModel
     private var isRunning: Boolean = false

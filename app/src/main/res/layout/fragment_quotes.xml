@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+<data>
+    <import type="android.view.View" />
+    <import type="com.example.mvvm_basics.enums.Direction" />
+    <variable name="viewmodel" type="com.example.mvvm_basics.ui.quotes.QuotesViewModel" />
+</data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".ui.fragments.QuotesFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/redHeartImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.mvvm_basics.view.ClearFocusEditText
+            android:id="@+id/editText_quote"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@{viewmodel.bgColor}"
+            android:ems="10"
+            android:hapticFeedbackEnabled="false"
+            android:hint="@string/quote"
+            android:imeOptions="actionGo"
+            android:inputType="textPersonName"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@={viewmodel.quoteLD}"
+            android:textColor="#2D2D2D"
+            android:textColorHint="@android:color/darker_gray"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/editText_author"
+            app:layout_constraintEnd_toStartOf="@+id/button_add_quote"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.example.mvvm_basics.view.ClearFocusEditText
+            android:id="@+id/editText_author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@{viewmodel.bgColor}"
+            android:ems="10"
+            android:hapticFeedbackEnabled="false"
+            android:hint="@string/author"
+            android:imeOptions="actionDone"
+            android:inputType="textPersonName"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@={viewmodel.authorLD}"
+            android:textColor="#2D2D2D"
+            android:textColorHint="@android:color/darker_gray"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/editText_quote"
+            app:layout_constraintStart_toStartOf="@+id/editText_quote" />
+
+        <!--        <Button-->
+        <!--            android:id="@+id/button_add_quote"-->
+        <!--            style="@style/Widget.AppCompat.Button"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_marginEnd="12dp"-->
+        <!--            android:layout_marginRight="12dp"-->
+        <!--            android:layout_marginBottom="10dp"-->
+        <!--            android:text="@string/add_quote"-->
+        <!--            android:textColor="@android:color/background_light"-->
+        <!--            android:theme="@style/DefaultButtonStyle"-->
+        <!--            android:onClick="@{() -> viewmodel.onLike(Direction.NORTH)}"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/logoImageView" />-->
+
+        <Button
+            android:id="@+id/button_add_quote"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/add_quote"
+            android:textColor="@android:color/background_light"
+            android:theme="@style/DefaultButtonStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/redHeartImageView" />
+
+
+        <!--        Solution 1 using app:imageResourceCustom attribute-->
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/logoImageView"-->
+        <!--            android:layout_width="50dp"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:layout_marginStart="16dp"-->
+        <!--            android:layout_marginLeft="16dp"-->
+        <!--            android:layout_marginEnd="16dp"-->
+        <!--            android:layout_marginRight="16dp"-->
+        <!--            android:layout_marginBottom="16dp"-->
+        <!--            android:tint="#E91E63"-->
+        <!--            app:layout_constraintBottom_toTopOf="@+id/editText_quote"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/button_add_quote"-->
+        <!--            app:layout_constraintHorizontal_bias="0.5"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:imageResourceCustom="@{viewmodel.logoSrcCompat}"-->
+        <!--            android:contentDescription="@string/todo" />-->
+
+
+        <!--        Solution 2 using app:imageResourceCustom attribute-->
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/logoImageView"-->
+        <!--            android:layout_width="50dp"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:layout_marginStart="16dp"-->
+        <!--            android:layout_marginLeft="16dp"-->
+        <!--            android:layout_marginEnd="16dp"-->
+        <!--            android:layout_marginRight="16dp"-->
+        <!--            android:layout_marginBottom="16dp"-->
+        <!--            android:tint="#E91E63"-->
+        <!--            app:layout_constraintBottom_toTopOf="@+id/editText_quote"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/button_add_quote"-->
+        <!--            app:layout_constraintHorizontal_bias="0.5"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:setImageResource="@{viewmodel.logoSrcCompat}"-->
+        <!--            android:contentDescription="@string/todo" />        -->
+
+        <ImageView
+            android:id="@+id/redHeartImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/todo"
+            android:tint="#E91E63"
+            app:layout_constraintBottom_toTopOf="@+id/editText_quote"
+            app:layout_constraintEnd_toStartOf="@+id/androidLogoImageView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@{viewmodel.logoSrcCompat, default = @drawable/ic_favorite_border_black_24dp}" />
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/androidLogo"-->
+        <!--            android:layout_width="50dp"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:layout_marginStart="16dp"-->
+        <!--            android:layout_marginLeft="16dp"-->
+        <!--            android:tint="#E91E63"-->
+        <!--            app:hideIfFalse="@{viewmodel.isVisible()}"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/logoImageView"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/button_add_quote"-->
+        <!--            app:layout_constraintHorizontal_bias="0.5"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/logoImageView"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/logoImageView"-->
+        <!--            app:srcCompat="@drawable/ic_android_black_24dp" />-->
+
+        <ImageView
+            android:id="@+id/androidLogoImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_android_black_24dp"
+            android:tint="#E91E63"
+            android:visibility="@{viewmodel.isVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/redHeartImageView"
+            app:layout_constraintEnd_toStartOf="@+id/button_add_quote"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/redHeartImageView"
+            app:layout_constraintTop_toTopOf="@+id/redHeartImageView"
+            tools:ignore="VectorDrawableCompat" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

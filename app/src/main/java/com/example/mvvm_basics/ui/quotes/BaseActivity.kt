@@ -6,8 +6,9 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : FragmentActivity() {
 
     fun isKeyboardOnScreen(activityRootView: View): Boolean{
         val r = Rect()

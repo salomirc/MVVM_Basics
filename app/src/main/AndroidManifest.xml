@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.quotes.BaseActivity" />
-        <activity android:name=".ui.quotes.QuoteDetails"
+        <activity android:name=".ui.quotes.QuoteDetailsActivity"
             android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ui.quotes.QuotesActivity"
