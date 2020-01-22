@@ -9,16 +9,14 @@
     android:focusableInTouchMode="true"
     tools:context=".ui.quotes.QuotesActivity">
 
-
-    <fragment
-        android:id="@+id/quotesFragment"
-        android:name="com.example.mvvm_basics.ui.fragments.QuotesFragment"
+    <FrameLayout
+        android:id="@+id/quotesFrame"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_quotes" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

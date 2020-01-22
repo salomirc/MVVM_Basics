@@ -18,6 +18,7 @@ import com.example.mvvm_basics.ui.quotes.QuoteListAdapter
 import com.example.mvvm_basics.ui.quotes.QuotesActivity
 import com.example.mvvm_basics.ui.quotes.QuotesViewModel
 import com.example.mvvm_basics.utilities.InjectorUtils
+import com.example.mvvm_basics.utilities.QUOTES_DETAILS_FRAGMENT_TAG
 import com.example.mvvm_basics.utilities.QUOTES_FRAGMENT_TAG
 import kotlinx.android.synthetic.main.activity_quotes.*
 import kotlinx.android.synthetic.main.fragment_quotes.*
@@ -83,12 +84,13 @@ class QuotesFragment : Fragment() {
 //                    startActivity(intent)
 
                     val fragmentManager = activity!!.supportFragmentManager
-                    val quoteDetailsFragment = QuoteDetailsFragment.newInstance(viewModel)
-                    val quotesFragment =fragmentManager.findFragmentById(R.id.quotesFragment)
+                    val quoteDetailsFragment = QuoteDetailsFragment()
+                    val quotesFragment =fragmentManager.findFragmentByTag(QUOTES_FRAGMENT_TAG)
                     val transaction = fragmentManager.beginTransaction()
-                    transaction.add(R.id.root_view_quotes, quoteDetailsFragment, QUOTES_FRAGMENT_TAG)
-                    transaction.hide(quotesFragment!!)
-                    transaction.show(quoteDetailsFragment)
+                    transaction.replace(R.id.quotesFrame, quoteDetailsFragment, QUOTES_DETAILS_FRAGMENT_TAG)
+//                    transaction.add(R.id.quotesFrame, quoteDetailsFragment, QUOTES_DETAILS_FRAGMENT_TAG)
+//                    transaction.hide(quotesFragment!!)
+//                    transaction.show(quoteDetailsFragment)
                     transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     transaction.addToBackStack(null)
                     transaction.commit()

@@ -10,18 +10,6 @@
     tools:context=".ui.quotes.QuotesActivity">
 
 
-    <fragment
-        android:id="@+id/quotesFragment"
-        android:name="com.example.mvvm_basics.ui.fragments.QuotesFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_quotes" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
@@ -29,15 +17,27 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <fragment
-        android:id="@+id/quotesDetailsFragment"
-        android:name="com.example.mvvm_basics.ui.fragments.QuoteDetailsFragment"
+    <FrameLayout
+        android:id="@+id/quotesFrame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/quoteDetailsFrame"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_quote_details" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
