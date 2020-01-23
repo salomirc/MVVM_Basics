@@ -22,8 +22,7 @@ import kotlinx.coroutines.launch
 
 class QuoteDetailsFragment : Fragment() {
     private lateinit var fgmView: View
-    lateinit var viewModel: QuotesViewModel
-    var isFromFactory: Boolean = false
+    private lateinit var viewModel: QuotesViewModel
     private var isRunning: Boolean = false
     private var parentForRootView: IRootView? = null
 
@@ -43,14 +42,12 @@ class QuoteDetailsFragment : Fragment() {
 
     private fun setArchitectureComponents() {
 
-        if (!isFromFactory){
-            // Get the QuotesViewModelFactory with all of it's dependencies constructed
-            val factory = InjectorUtils.provideQuotesViewModelFactory()
+        // Get the QuotesViewModelFactory with all of it's dependencies constructed
+        val factory = InjectorUtils.provideQuotesViewModelFactory()
 
-            // Use ViewModelProviders class to create / get already created QuotesViewModel
-            // for this view (activity)
-            viewModel = ViewModelProviders.of(activity!!, factory).get(QuotesViewModel::class.java)
-        }
+        // Use ViewModelProviders class to create / get already created QuotesViewModel
+        // for this view (activity)
+        viewModel = ViewModelProviders.of(activity!!, factory).get(QuotesViewModel::class.java)
 
         // Inflate view and obtain an instance of the binding class.
         val binding: FragmentQuoteDetailsBinding = FragmentQuoteDetailsBinding.bind(fgmView)
@@ -99,24 +96,6 @@ class QuoteDetailsFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         parentForRootView = null
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DemoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(viewModel: QuotesViewModel) =
-            QuoteDetailsFragment().apply {
-                this.viewModel = viewModel
-                this.isFromFactory = true
-            }
     }
 
 }

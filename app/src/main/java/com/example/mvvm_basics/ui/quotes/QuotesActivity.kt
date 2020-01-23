@@ -33,12 +33,18 @@ class QuotesActivity : BaseActivity(), IRootView {
         val quoteDetailsFragment = QuoteDetailsFragment()
         val transaction = fragmentManager.beginTransaction()
 
-        transaction.add(R.id.quotesFrame, quoteFragment, QUOTES_FRAGMENT_TAG)
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
-            transaction.add(R.id.quoteDetailsFrame, quoteDetailsFragment, QUOTES_DETAILS_FRAGMENT_TAG)
-            transaction.replace(R.id.quotesFrame, quoteFragment, QUOTES_FRAGMENT_TAG)
+        if (savedInstanceState != null) {
+            fragmentManager.popBackStackImmediate()
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                transaction.replace(R.id.quoteDetailsFrame, quoteDetailsFragment, QUOTES_DETAILS_FRAGMENT_TAG)
+            }
         }
-
+        else{
+            transaction.add(R.id.quotesFrame, quoteFragment, QUOTES_FRAGMENT_TAG)
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+                transaction.add(R.id.quoteDetailsFrame, quoteDetailsFragment, QUOTES_DETAILS_FRAGMENT_TAG)
+            }
+        }
         transaction.commit()
     }
 
