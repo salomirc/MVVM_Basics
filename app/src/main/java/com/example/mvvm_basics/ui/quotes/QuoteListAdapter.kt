@@ -44,7 +44,7 @@ class QuoteListAdapter(private val context: Context,
             if (event.action == MotionEvent.ACTION_DOWN){
                 v.setBackgroundColor(ContextCompat.getColor(context, R.color.itemTextViewBgColorSelected))
             }
-            if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL){
+            if (event.action == MotionEvent.ACTION_CANCEL){
                 v.setBackgroundColor(Color.TRANSPARENT)
             }
             return@setOnTouchListener false
