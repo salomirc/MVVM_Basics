@@ -10,7 +10,6 @@
         android:id="@+id/itemTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/itemTextViewBgColorDefault"
         android:minHeight="50dp"
         android:padding="5dp"
         android:textSize="18sp"
