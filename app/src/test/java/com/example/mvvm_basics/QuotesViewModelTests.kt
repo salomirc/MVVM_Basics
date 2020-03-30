@@ -18,7 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 class QuotesViewModelTests {
 
     private val repo = mockk<QuoteRepository>()
-    private val viewModel by lazy { QuotesViewModel(repo) }
+    private lateinit var viewModel: QuotesViewModel
 
     private val sampleList = mutableListOf(
         Quote("abc", Student("Ciprian", 21, Hobby("Footbal", "Sport"))),
@@ -28,6 +28,7 @@ class QuotesViewModelTests {
     @BeforeEach
     fun setUp() {
         clearMocks(repo)
+        viewModel = QuotesViewModel(repo)
     }
 
     @Test

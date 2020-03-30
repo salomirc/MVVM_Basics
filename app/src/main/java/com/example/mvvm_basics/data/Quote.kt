@@ -7,17 +7,16 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "quote_table")
 data class Quote(
-
     @ColumnInfo(name = "quote_text")
-    val quoteText: String,
+    var quoteText: String,
 
     @Embedded(prefix = "student_")
-    val author: Student)
-{
+    var author: Student,
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id: Int = 0
-
+    val id: Int = 0)
+{
     @ColumnInfo(name = "is_selected")
     var isSelected: Boolean = false
 

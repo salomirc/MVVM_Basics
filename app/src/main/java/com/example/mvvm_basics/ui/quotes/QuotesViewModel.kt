@@ -47,16 +47,16 @@ class QuotesViewModel(private val quoteRepository: QuoteRepository) : ViewModel(
         println("debug: one - from the thread ${Thread.currentThread().name}")
 
         val newQuote = Quote(quoteLD.value!!, Student(authorLD.value!!, 21, Hobby("Football", "Soft")))
-        var id: Long = 0
-        withContext(Dispatchers.IO){
+        val result = withContext(Dispatchers.IO){
             println("debug: two - from the thread ${Thread.currentThread().name}")
 
             //Add newQuote to Database
-            id = quoteRepository.addQuote(newQuote)
+            val id = quoteRepository.addQuote(newQuote)
             delay(1000)
+            return@withContext quoteRepository.findById(id)
         }
         //Update the ViewModel
-        quotes.value!!.add(newQuote.apply { this.id = id.toInt() })
+        quotes.value!!.add(result)
         logoSrcCompat.value = R.drawable.ic_favorite_border_black_24dp
         isVisible.value = true
         return true
