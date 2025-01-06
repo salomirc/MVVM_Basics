@@ -9,7 +9,6 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.mvvm_basics"
         minSdkVersion 15
@@ -28,8 +27,8 @@ android {
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
     testOptions {
         unitTests.returnDefaultValues = true
